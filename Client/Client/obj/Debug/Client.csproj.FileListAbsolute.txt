@@ -1,0 +1,9 @@
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\bin\Debug\Client.exe.config
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\bin\Debug\Client.exe
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\bin\Debug\Client.pdb
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.Properties.Resources.resources
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.csproj.GenerateResource.Cache
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.exe
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.pdb
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.login.resources
