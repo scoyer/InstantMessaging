@@ -8,3 +8,4 @@ E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.
 E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.pdb
 E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.login.resources
 E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.MainForm.resources
+E:\快盘\学习资料\网络编程\综合实验\Client\Client\obj\Debug\Client.Friend.resources
