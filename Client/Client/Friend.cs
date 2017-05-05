@@ -28,6 +28,7 @@ namespace Client
             listView1.SmallImageList = imageList1;
             listView1.View = View.Details;
             listView1.FullRowSelect = true;
+            listView1.Scrollable = false;
         }
     }
 }

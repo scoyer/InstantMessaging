@@ -5,28 +5,90 @@ using System.Text;
 using System.Threading.Tasks;
 
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 
 namespace Client
 {
-    class LinkWithServer
+    public class LinkWithServer
     {
-        private TcpClient client;
-        private 
+        public TcpClient client;
+        public string hostname;
+        public int port;
 
-        LinkWithServer()
-        { 
-        
-        }
-
-        LinkWithServer(TcpClient client)
+        public LinkWithServer()
         {
-            this.client = client;
+            hostname = getLocalIP();
+            port = getPort();
+        }
+        
+        public int getPort()
+        {
+            for (int i = 51000; i < 60000; i++)
+            {
+                if (!PortInUse(i)) {
+                    return i;
+                }
+            }
+            return 0;
         }
 
-        bool sendToServer(string message)
+        public bool PortInUse(int port)
+        {
+            bool inUse = false;
+
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+
+            foreach (IPEndPoint endPoint in ipEndPoints)
+            {
+                if (endPoint.Port == port)
+                {
+                    inUse = true;
+                    break;
+                }
+            }
+
+            return inUse;
+        }
+
+        public string getLocalIP()
+        {
+            try
+            {
+                string hostname = Dns.GetHostName();
+                IPHostEntry iphostentry = Dns.GetHostEntry(hostname);
+                for (int i = 0; i < iphostentry.AddressList.Length; i++)
+                {
+                    if (iphostentry.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return iphostentry.AddressList[i].ToString();
+                    }
+                }
+                return "127.0.0.1";
+            }
+            catch
+            {
+                return "127.0.0.1";
+            }
+        }
+
+        public bool link()
+        {
+            try
+            {
+                client = new TcpClient(hostname, port);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public bool sendToServer(string message)
         {
             try
             {
@@ -41,7 +103,7 @@ namespace Client
             return true;
         }
 
-        void revcWithServer()
+        public void revcWithServer()
         {
             try
             {
@@ -53,7 +115,7 @@ namespace Client
             }
         }
 
-        void close()
+        public void close()
         {
             if (client != null)
             {
