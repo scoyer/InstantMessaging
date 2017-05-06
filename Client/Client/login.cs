@@ -22,11 +22,17 @@ namespace Client
         public login()
         {
             InitializeComponent();
+            /*
+            FriendList fl = new FriendList();
+            fl.Show();
+             * */
+            Form f = new MainForm();
+            f.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(lws.hostname + "  " + lws.port.ToString());
+            //MessageBox.Show(lws.hostname + "  " + lws.port.ToString());
             if (!lws.link())
             {
                 MessageBox.Show("连接不上服务器");

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows Desktop
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{2D74217E-AD1F-4861-B69E-4124A2335C84}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "Server\Server.csproj", "{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Server", "..\Server\Server.csproj", "{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "..\Client\Client\Client.csproj", "{2D74217E-AD1F-4861-B69E-4124A2335C84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,14 +11,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Release|Any CPU.Build.0 = Release|Any CPU
 		{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47CDB5F4-3C62-4508-8B01-8D2C1A0DF05B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D74217E-AD1F-4861-B69E-4124A2335C84}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

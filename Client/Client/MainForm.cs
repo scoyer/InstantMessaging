@@ -24,15 +24,15 @@ namespace Client
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            Form childForm = new Friend();
+            FriendList childForm = new FriendList();
             childForm.BackColor = System.Drawing.Color.Yellow;
-            childForm.StartPosition = FormStartPosition.Manual;
-            childForm.Location = new Point(0, 17);
+            //childForm.StartPosition = FormStartPosition.Manual;
+            //childForm.Location = new Point(0, 17);
             Button bt = new Button();
             bt.Text = "振豪";
             childForm.Controls.Add(bt);
-            childForm.FormBorderStyle = FormBorderStyle.None;
-            childForm.MdiParent = this;
+            //childForm.FormBorderStyle = FormBorderStyle.None;
+            //childForm.MdiParent = this;
             childForm.Parent = this.panel1;
             childForm.Show();
         }
