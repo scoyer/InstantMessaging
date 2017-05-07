@@ -44,6 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Database.cs" />
+    <Compile Include="LinkWithClient.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -58,6 +60,7 @@
     <Compile Include="ServerInfo.Designer.cs">
       <DependentUpon>ServerInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="User.cs" />
     <Compile Include="UserManager.cs">
       <SubType>UserControl</SubType>
     </Compile>

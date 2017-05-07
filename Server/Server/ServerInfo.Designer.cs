@@ -137,6 +137,7 @@
             this.button1.TabIndex = 1;
             this.button1.Text = "开始监听";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ServerInfo
             // 
@@ -146,6 +147,7 @@
             this.Controls.Add(this.groupBox1);
             this.Name = "ServerInfo";
             this.Size = new System.Drawing.Size(510, 300);
+            this.Load += new System.EventHandler(this.ServerInfo_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

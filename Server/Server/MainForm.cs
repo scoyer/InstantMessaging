@@ -15,6 +15,7 @@ namespace Server
         public UserManager usermanager;
         public window2 w2;
         public ServerInfo serverinfo;
+        public LinkWithClient lwc;
 
         public MainForm()
         {
@@ -23,9 +24,10 @@ namespace Server
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            lwc = new LinkWithClient();
             usermanager = new UserManager();
             w2 = new window2();
-            serverinfo = new ServerInfo();
+            serverinfo = new ServerInfo(lwc);
             groupBox1.Controls.Add(serverinfo);
         }
 

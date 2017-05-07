@@ -18,15 +18,26 @@ namespace Server
 {
     public partial class ServerInfo : UserControl
     {
-        public string hostname;
+        public string localIP;
         public int port;
+        public LinkWithClient lwc;
 
         public ServerInfo()
         {
             InitializeComponent();
-            hostname = getLocalIP();
+        }
+
+        public ServerInfo(LinkWithClient LWC)
+        {
+            InitializeComponent();
+            this.lwc = LWC;
+        }
+
+        private void ServerInfo_Load(object sender, EventArgs e)
+        {
+            localIP = getLocalIP();
             port = getPort();
-            textBox1.Text = hostname;
+            textBox1.Text = localIP;
             textBox2.Text = "0";
             textBox2.Enabled = false;
             textBox3.Text = port.ToString(); ;
@@ -83,6 +94,23 @@ namespace Server
             catch
             {
                 return "127.0.0.1";
+            }
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (textBox2.Text == "ON")
+            {
+                textBox2.Text = "0";
+                textBox4.Text = "OFF";
+                button1.Text = "开始监听";
+                lwc.stop();
+            }
+            else
+            {
+                textBox4.Text = "ON";
+                button1.Text = "停止监听";
+                lwc.start(textBox1.Text, int.Parse(textBox3.Text));
             }
         }
 
