@@ -24,7 +24,21 @@ namespace Server
 
         private void button1_Click(object sender, EventArgs e)
         {
+            
+        }
 
+        private delegate void AddItemToListBox1Delegate(string str);
+        public void AddItemToListBox1(string msg)
+        {
+            if (listBox1.InvokeRequired)
+            {
+                AddItemToListBox1Delegate add = AddItemToListBox1;
+                listBox1.Invoke(add, msg);
+            }
+            else
+            {
+                listBox1.Items.Add(msg);
+            }
         }
     }
 }

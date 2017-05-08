@@ -15,13 +15,53 @@ namespace Client
     public class LinkWithServer
     {
         public TcpClient client;
-        public string hostname;
-        public int port;
+        public string localIP;
+        public int port = 51000;
+        public int listen_port;
 
         public LinkWithServer()
         {
-            hostname = getLocalIP();
-            port = getPort();
+            localIP = getLocalIP();
+            listen_port = getPort();
+        }
+
+        public string start(string id, string password)
+        {
+            try
+            {
+                client = new TcpClient(localIP, port);
+            }
+            catch
+            {
+                return "link_fail";
+            }
+            sendToServer(string.Format("login,{0},{1},{2},{3}", localIP, listen_port.ToString(), id, password));
+            string content = new BinaryReader(client.GetStream()).ReadString();
+            //登录成功
+            if (content.StartsWith("login_success"))
+            {
+                Thread thread = new Thread(ReceiveFromServe);
+                //thread.IsBackground = true;
+                thread.Start();
+            }
+            return content;
+        }
+
+        public void ReceiveFromServe()
+        {
+            string content;
+            BinaryReader br = new BinaryReader(client.GetStream());
+            while (true) 
+            {
+                try
+                {
+                    content = br.ReadString();
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
         
         public int getPort()
@@ -75,19 +115,6 @@ namespace Client
             }
         }
 
-        public bool link()
-        {
-            try
-            {
-                client = new TcpClient(hostname, port);
-            }
-            catch
-            {
-                return false;
-            }
-            return true;
-        }
-
         public bool sendToServer(string message)
         {
             try
@@ -101,18 +128,6 @@ namespace Client
                 return false;   
             }
             return true;
-        }
-
-        public void revcWithServer()
-        {
-            try
-            {
-
-            }
-            catch
-            { 
-                
-            }
         }
 
         public void close()

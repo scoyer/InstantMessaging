@@ -52,5 +52,10 @@ namespace Server
             groupBox1.Controls.Add(usermanager);
         }
 
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            lwc.stop();
+        }
+
     }
 }

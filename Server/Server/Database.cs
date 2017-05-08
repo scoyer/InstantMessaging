@@ -4,12 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.IO;
+
 namespace Server
 {
     public class Database
     {
-        List<User> userList;
-
+        private List<User> userList;
+        private string path = "E:\\database\\userinfo.txt";
+      
         public Database()
         {
             userList = new List<User>();
@@ -17,7 +20,32 @@ namespace Server
 
         public void readFromDatabase()
         {
-
+            try
+            {
+                StreamReader sr = new StreamReader(path, Encoding.UTF8);
+                while (!sr.EndOfStream)
+                {
+                    User user = new User();
+                    try
+                    {
+                        user.id = sr.ReadLine();
+                        user.password = sr.ReadLine();
+                        user.nickname = sr.ReadLine();
+                        user.signature = sr.ReadLine();
+                        userList.Add(user);
+                        //Console.WriteLine(user.id);
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                sr.Close();
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public void writeToDatebase()

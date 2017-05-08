@@ -24,7 +24,11 @@ namespace Client
         {
             this.lws = LWS;
             InitializeComponent();
-            textBox1.Text = lws.hostname;
+        }
+
+        private void setting_Load(object sender, EventArgs e)
+        {
+            textBox1.Text = lws.localIP;
             textBox2.Text = lws.port.ToString();
         }
         /*
@@ -58,7 +62,7 @@ namespace Client
         */
         private void button1_Click(object sender, EventArgs e)
         {
-            lws.hostname = textBox1.Text;
+            lws.localIP = textBox1.Text;
             lws.port = int.Parse(textBox2.Text);
             this.Close();
         }

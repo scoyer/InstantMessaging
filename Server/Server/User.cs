@@ -15,7 +15,7 @@ namespace Server
     public class User
     {
         public TcpClient client;
-        public string ipaddress;
+        public string localIP;
         public int port;
         public int listen_port;
         public string id;
@@ -30,15 +30,15 @@ namespace Server
 
         public string encode()
         { 
-            //format: IP,listen_port,nickname,signature
-            return string.Format("{0},{1},{2},{3},{4}",ipaddress, listen_port.ToString(),nickname,signature);
+            //format: IP,port,listen_port,id,nickname,signature
+            return string.Format("{0},{1},{2},{3},{4},{5}", localIP, port.ToString(), listen_port.ToString(), id, nickname, signature);
         }
 
         public User decode(string code)
         {
             User user = new User();
             string[] str = code.Split(',');
-            user.ipaddress = str[0];
+            user.localIP = str[0];
             user.port = int.Parse(str[1]);
             user.nickname = str[2];
             user.signature = str[3];

@@ -99,7 +99,7 @@ namespace Server
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox2.Text == "ON")
+            if (textBox4.Text == "ON")
             {
                 textBox2.Text = "0";
                 textBox4.Text = "OFF";

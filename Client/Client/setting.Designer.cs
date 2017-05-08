@@ -69,9 +69,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(185, 130);
+            this.button1.Location = new System.Drawing.Point(62, 128);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(163, 23);
             this.button1.TabIndex = 4;
             this.button1.Text = "保存";
             this.button1.UseVisualStyleBackColor = true;
@@ -91,6 +91,7 @@
             this.MinimizeBox = false;
             this.Name = "setting";
             this.Text = "设置";
+            this.Load += new System.EventHandler(this.setting_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

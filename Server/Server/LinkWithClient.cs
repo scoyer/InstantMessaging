@@ -16,19 +16,27 @@ namespace Server
     {
         public TcpListener listener;
         public List<User> userList;
+        public bool Quit;
 
         public Database database;
+        public MainForm form;
 
         public LinkWithClient()
         {
-            userList = new List<User>();
-            database = new Database();
+
+        }
+
+        public LinkWithClient(MainForm FORM) {
+            this.form = FORM;
         }
 
         public int start(string localIP, int port)
         {
             try
             {
+                Quit = false;
+                userList = new List<User>();
+                database = new Database();
                 database.readFromDatabase();
                 listener = new TcpListener(IPAddress.Parse(localIP), port);
                 listener.Start();
@@ -37,6 +45,7 @@ namespace Server
             }
             catch
             {
+                //Console.WriteLine("================出错了");
                 return 0;
             }
             return 1;
@@ -46,6 +55,7 @@ namespace Server
         {
             try
             {
+                Quit = true;
                 database.writeToDatebase();
                 listener.Stop();
             }
@@ -70,21 +80,18 @@ namespace Server
                     break;
                 }
                 //Console.WriteLine("coming");
-                User user = new User();
-                user.client = client;
-                userList.Add(user);
                 Thread thread = new Thread(ReceiveFromClient);
-                thread.Start(user);
+                thread.Start(client);
             }
         }
 
         void ReceiveFromClient(object o)
         {
-            User user = (User)o;
-            TcpClient client = user.client;
+            TcpClient client = (TcpClient)o;
             BinaryReader br = new BinaryReader(client.GetStream());
             string message;
-            while (true)
+            User user = null;
+            while (Quit == false)
             {
                 try
                 {
@@ -92,32 +99,62 @@ namespace Server
                 }
                 catch
                 {
+                    if (Quit == false) { 
+                        //用户离开
+                    }
                     break;
                 }
                 string[] content = message.Split(',');
                 switch (content[0])
                 {
                     case "login":
-                        //Format IP,port,listen_port,id,password
+                        //Format IP,listen_port,id,password
                         //check validity
                         string id = content[3];
                         string password = content[4];
-                        User login_user = database.findUser(id);
-                        if (login_user == null) 
+                        //查找有没有重复登录
+                        for (int i = 0; i < userList.Count; i++)
                         {
-                        //用户不存在
+                            if (userList[i].id == id) {
+                                SendToClient(client, "login_repeat");
+                                return;
+                            }    
                         }
-                        else if (password != login_user.password)
+                        bool ok = false;
+                        user = database.findUser(id);
+                        if (user == null)
                         {
-                        //用户密码不正确
+                            //用户不存在
+                            SendToClient(client, "login_nonexistent");
+                        }
+                        else if (password != user.password)
+                        {
+                            //用户密码不正确
+                            SendToClient(client, "login_incorrect");
                         }
                         else
-                        { 
-                        //用户登陆成功
+                        {
+                            //用户登陆成功
+                            user.localIP = content[1];
+                            user.port = (client.Client.RemoteEndPoint as IPEndPoint).Port;
+                            user.listen_port = int.Parse(content[2]);
+                            sendToAllClient("login," + user.encode());
+                            SendToClient(client, "login_success," + user.encode());
+                            user.client = client;
+                            userList.Add(user);
+                            ok = true;
+                            //form.usermanager.AddItemToListBox1(id + "login");
                         }
+                        if (!ok) return; 
                         break;
                     case "logout":
-                        //Format id,password,nickname,signature
+                        //Format password,nickname,signature
+                        userList.Remove(user);
+                        sendToAllClient("logout," + user.id);
+                        user.password = content[1];
+                        user.nickname = content[2];
+                        user.signature = content[3];
+                        database.updateUser(user);
                         break;
                     case "text":
                         //Format id1,id2
@@ -134,7 +171,7 @@ namespace Server
             }
         }
 
-        void SentToClient(TcpClient client, string msg)
+        public void SendToClient(TcpClient client, string msg)
         {
             try
             {
@@ -144,7 +181,22 @@ namespace Server
             }
             catch
             {
+                return;
+            }
+        }
 
+        public void sendToAllClient(string msg)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                try
+                {
+                    SendToClient(userList[i].client, msg);
+                }
+                catch
+                {
+                    continue;
+                }
             }
         }
     }

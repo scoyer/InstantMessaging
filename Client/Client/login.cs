@@ -17,25 +17,42 @@ namespace Client
 {
     public partial class login : Form
     {
-        public LinkWithServer lws = new LinkWithServer();
+        public LinkWithServer lws;
+        public MainForm form;
 
         public login()
         {
             InitializeComponent();
-            /*
-            FriendList fl = new FriendList();
-            fl.Show();
-             * */
-            Form f = new MainForm();
-            f.Show();
+        }
+
+        private void login_Load(object sender, EventArgs e)
+        {
+            lws = new LinkWithServer();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show(lws.hostname + "  " + lws.port.ToString());
-            if (!lws.link())
+            string[] content = lws.start(textBox1.Text, textBox2.Text).Split(',');
+            switch (content[0])
             {
-                MessageBox.Show("连接不上服务器");
+                case "link_fail":
+                    MessageBox.Show("连接不上服务器");
+                    break;
+                case "login_repeat":
+                    MessageBox.Show("请勿重复登录");
+                    break;
+                case "login_nonexistent":
+                    MessageBox.Show("用户不存在");
+                    break;
+                case "login_incorrect":
+                    MessageBox.Show("密码错误");
+                    break;
+                case "login_success":
+                    MessageBox.Show("登录成功");
+                    this.DialogResult = System.Windows.Forms.DialogResult.OK;
+                    break;
+                default:
+                    break;
             }
         }
 
