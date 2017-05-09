@@ -46,26 +46,26 @@
   <ItemGroup>
     <Compile Include="Database.cs" />
     <Compile Include="LinkWithClient.cs" />
-    <Compile Include="MainForm.cs">
+    <Compile Include="Form_Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Form_Main.Designer.cs">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServerInfo.cs">
+    <Compile Include="Control_ServerInfo.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ServerInfo.Designer.cs">
-      <DependentUpon>ServerInfo.cs</DependentUpon>
+    <Compile Include="Control_ServerInfo.Designer.cs">
+      <DependentUpon>Control_ServerInfo.cs</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
-    <Compile Include="UserManager.cs">
+    <Compile Include="Control_UserManage.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="UserManager.Designer.cs">
-      <DependentUpon>UserManager.cs</DependentUpon>
+    <Compile Include="Control_UserManage.Designer.cs">
+      <DependentUpon>Control_UserManage.cs</DependentUpon>
     </Compile>
     <Compile Include="window2.cs">
       <SubType>UserControl</SubType>
@@ -73,8 +73,8 @@
     <Compile Include="window2.Designer.cs">
       <DependentUpon>window2.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Form_Main.resx">
+      <DependentUpon>Form_Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -86,15 +86,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="ServerInfo.resx">
-      <DependentUpon>ServerInfo.cs</DependentUpon>
+    <EmbeddedResource Include="Control_ServerInfo.resx">
+      <DependentUpon>Control_ServerInfo.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserManager.resx">
-      <DependentUpon>UserManager.cs</DependentUpon>
+    <EmbeddedResource Include="Control_UserManage.resx">
+      <DependentUpon>Control_UserManage.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="window2.resx">
       <DependentUpon>window2.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

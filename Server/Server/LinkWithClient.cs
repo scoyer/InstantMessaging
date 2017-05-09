@@ -19,14 +19,14 @@ namespace Server
         public bool Quit;
 
         public Database database;
-        public MainForm form;
+        public Form_Main form;
 
         public LinkWithClient()
         {
 
         }
 
-        public LinkWithClient(MainForm FORM) {
+        public LinkWithClient(Form_Main FORM) {
             this.form = FORM;
         }
 
@@ -143,7 +143,7 @@ namespace Server
                             user.client = client;
                             userList.Add(user);
                             ok = true;
-                            //form.usermanager.AddItemToListBox1(id + "login");
+                            form.usermanager.AddItemToListBox1(user.nickname);
                         }
                         if (!ok) return; 
                         break;

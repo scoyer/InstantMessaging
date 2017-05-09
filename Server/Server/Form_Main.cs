@@ -10,24 +10,24 @@ using System.Windows.Forms;
 
 namespace Server
 {
-    public partial class MainForm : Form
+    public partial class Form_Main : Form
     {
-        public UserManager usermanager;
-        public window2 w2;
-        public ServerInfo serverinfo;
+        public Control_UserManage usermanager;
+        public Control_Log w2;
+        public Control_ServerInfo serverinfo;
         public LinkWithClient lwc;
 
-        public MainForm()
+        public Form_Main()
         {
             InitializeComponent();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            lwc = new LinkWithClient();
-            usermanager = new UserManager();
-            w2 = new window2();
-            serverinfo = new ServerInfo(lwc);
+            lwc = new LinkWithClient(this);
+            usermanager = new Control_UserManage();
+            w2 = new Control_Log();
+            serverinfo = new Control_ServerInfo(lwc);
             groupBox1.Controls.Add(serverinfo);
         }
 
@@ -36,6 +36,7 @@ namespace Server
             serverinfo.Show();
             groupBox1.Controls.Clear();
             groupBox1.Controls.Add(serverinfo);
+            //usermanager.AddItemToListBox1("振豪");
         }
 
         private void button2_Click(object sender, EventArgs e)

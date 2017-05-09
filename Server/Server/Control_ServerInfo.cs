@@ -16,18 +16,18 @@ using System.Threading;
 
 namespace Server
 {
-    public partial class ServerInfo : UserControl
+    public partial class Control_ServerInfo : UserControl
     {
         public string localIP;
         public int port;
         public LinkWithClient lwc;
 
-        public ServerInfo()
+        public Control_ServerInfo()
         {
             InitializeComponent();
         }
 
-        public ServerInfo(LinkWithClient LWC)
+        public Control_ServerInfo(LinkWithClient LWC)
         {
             InitializeComponent();
             this.lwc = LWC;

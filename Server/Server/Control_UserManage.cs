@@ -8,11 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using System.IO;
+using System.Threading;
+
 namespace Server
 {
-    public partial class UserManager : UserControl
+    public partial class Control_UserManage : UserControl
     {
-        public UserManager()
+        public Control_UserManage()
         {
             InitializeComponent();
         }
@@ -28,8 +34,9 @@ namespace Server
         }
 
         private delegate void AddItemToListBox1Delegate(string str);
-        public void AddItemToListBox1(string msg)
+        public void AddItemToListBox1(object o)
         {
+            string msg = (string)o;
             if (listBox1.InvokeRequired)
             {
                 AddItemToListBox1Delegate add = AddItemToListBox1;

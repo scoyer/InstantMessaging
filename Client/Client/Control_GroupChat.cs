@@ -10,14 +10,11 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class FriendList : UserControl
+    public partial class Control_GroupChat : UserControl
     {
-        public FriendList()
+        public Control_GroupChat()
         {
             InitializeComponent();
-            listBox1.ItemHeight = 12;
-            listBox1.Items.Add("振豪");
-            listBox1.Items.Add("振宇");
         }
     }
 }

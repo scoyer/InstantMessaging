@@ -41,7 +41,7 @@ namespace Client
             if (content.StartsWith("login_success"))
             {
                 Thread thread = new Thread(ReceiveFromServe);
-                //thread.IsBackground = true;
+                thread.IsBackground = true;
                 thread.Start();
             }
             return content;

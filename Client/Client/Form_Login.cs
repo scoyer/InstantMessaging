@@ -15,12 +15,13 @@ using System.Threading;
 
 namespace Client
 {
-    public partial class login : Form
+    public partial class Form_Login : Form
     {
         public LinkWithServer lws;
-        public MainForm form;
+        public Form_Main form;
+        public User user = new User();
 
-        public login()
+        public Form_Login()
         {
             InitializeComponent();
         }
@@ -48,7 +49,14 @@ namespace Client
                     MessageBox.Show("密码错误");
                     break;
                 case "login_success":
-                    MessageBox.Show("登录成功");
+                    //MessageBox.Show("登录成功");
+                    user.id = textBox1.Text;
+                    user.password = textBox2.Text;
+                    user.localIP = content[1];
+                    user.port = int.Parse(content[2]);
+                    user.listen_port = int.Parse(content[3]);
+                    user.nickname = content[5];
+                    user.signature = content[6];
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
                     break;
                 default:
@@ -58,8 +66,13 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form form = new setting(lws);
+            Form form = new Form_Setting(lws);
             form.Show();
+        }
+
+        private void Login_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
         }
     }
 }

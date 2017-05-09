@@ -6,30 +6,20 @@ using System.Threading.Tasks;
 
 namespace Client
 {
-    class User
+    public class User
     {
-        private string id;
-        private string nickname;
-        private string signature;
-        private string photo;
-        private string ip;
-        private int port;
-        private int extra_port;
+        public string id;
+        public string password;
+        public string nickname;
+        public string signature;
+        public string photo;
+        public string localIP;
+        public int port;
+        public int listen_port;
 
-        User()
-        { 
-        
-        }
-
-        User(string message)
+        public User()
         {
-            
-        }
-
-        string encode(User user)
-        { 
-            string s = "";
-            return s;
+                
         }
     }
 }

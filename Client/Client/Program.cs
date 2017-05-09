@@ -16,10 +16,11 @@ namespace Client
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Form login = new login();
+            Form_Login login = new Form_Login();
             if (login.ShowDialog() == DialogResult.OK)
             {
-                Application.Run(new MainForm());
+                Application.Run(new Form_Main(login.user));
+                login.Dispose();
             }
         }
     }

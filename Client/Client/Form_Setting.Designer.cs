@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class setting
+    partial class Form_Setting
     {
         /// <summary>
         /// Required designer variable.

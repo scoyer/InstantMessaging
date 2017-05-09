@@ -1,6 +1,6 @@
 ﻿namespace Server
 {
-    partial class UserManager
+    partial class Control_UserManage
     {
         /// <summary> 
         /// Required designer variable.

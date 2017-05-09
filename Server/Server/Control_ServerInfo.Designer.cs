@@ -1,6 +1,6 @@
 ﻿namespace Server
 {
-    partial class ServerInfo
+    partial class Control_ServerInfo
     {
         /// <summary> 
         /// Required designer variable.

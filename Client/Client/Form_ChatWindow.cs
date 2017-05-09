@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Drawing;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Server
+namespace Client
 {
-    public partial class window2 : UserControl
+    public partial class Form_ChatWindow : Form
     {
-        public window2()
+        public Form_ChatWindow()
         {
             InitializeComponent();
         }

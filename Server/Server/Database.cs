@@ -11,7 +11,7 @@ namespace Server
     public class Database
     {
         private List<User> userList;
-        private string path = "E:\\database\\userinfo.txt";
+        private string path = "database\\userinfo.txt";
       
         public Database()
         {
@@ -22,6 +22,7 @@ namespace Server
         {
             try
             {
+                FileStream fr = new FileStream("a.txt", FileMode.Create);
                 StreamReader sr = new StreamReader(path, Encoding.UTF8);
                 while (!sr.EndOfStream)
                 {

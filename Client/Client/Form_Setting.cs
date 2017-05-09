@@ -10,17 +10,17 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class setting : Form
+    public partial class Form_Setting : Form
     {
         
         private LinkWithServer lws;
         
-        public setting()
+        public Form_Setting()
         {
             InitializeComponent();
         }
         
-        public setting(LinkWithServer LWS)
+        public Form_Setting(LinkWithServer LWS)
         {
             this.lws = LWS;
             InitializeComponent();
