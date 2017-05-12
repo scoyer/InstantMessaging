@@ -135,26 +135,28 @@ namespace Server
                         else
                         {
                             //用户登陆成功
+                            user.client = client;
                             user.localIP = content[1];
                             user.port = (client.Client.RemoteEndPoint as IPEndPoint).Port;
                             user.listen_port = int.Parse(content[2]);
-                            sendToAllClient("login," + user.encode());
                             SendToClient(client, "login_success," + user.encode());
-                            user.client = client;
+                            sendToAllClient("login," + user.encode());
+                            AllShouldSend(user, "login,");
                             userList.Add(user);
                             ok = true;
-                            form.usermanager.AddItemToListBox1(user.nickname);
+                            form.usermanager.AddItemToListBox1(user.id);
                         }
                         if (!ok) return; 
                         break;
                     case "logout":
                         //Format password,nickname,signature
                         userList.Remove(user);
-                        sendToAllClient("logout," + user.id);
+                        sendToAllClient("logout," + user.encode());
                         user.password = content[1];
                         user.nickname = content[2];
                         user.signature = content[3];
                         database.updateUser(user);
+                        form.usermanager.RemoveUserName(user.id);
                         break;
                     case "text":
                         //Format id1,id2
@@ -192,6 +194,21 @@ namespace Server
                 try
                 {
                     SendToClient(userList[i].client, msg);
+                }
+                catch
+                {
+                    continue;
+                }
+            }
+        }
+
+        public void AllShouldSend(User user, string msg)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                try
+                {
+                    SendToClient(user.client, msg + userList[i].encode());
                 }
                 catch
                 {

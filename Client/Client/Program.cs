@@ -19,7 +19,7 @@ namespace Client
             Form_Login login = new Form_Login();
             if (login.ShowDialog() == DialogResult.OK)
             {
-                Application.Run(new Form_Main(login.user));
+                Application.Run(new Form_Main(login.user, login.lws));
                 login.Dispose();
             }
         }

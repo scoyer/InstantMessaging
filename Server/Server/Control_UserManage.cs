@@ -33,18 +33,35 @@ namespace Server
             
         }
 
-        private delegate void AddItemToListBox1Delegate(string str);
-        public void AddItemToListBox1(object o)
+        //add item
+        private delegate void AddItemToListBox1Delegate(string id);
+        public void AddItemToListBox1(string id)
         {
-            string msg = (string)o;
             if (listBox1.InvokeRequired)
             {
                 AddItemToListBox1Delegate add = AddItemToListBox1;
-                listBox1.Invoke(add, msg);
+                listBox1.Invoke(add, id);
             }
             else
             {
-                listBox1.Items.Add(msg);
+                listBox1.Items.Add(id);
+            }
+        }
+
+        //remove item
+        private delegate void RemoveUserNameDelegate(string id);
+        public void RemoveUserName(string id)
+        {
+            if (listBox1.InvokeRequired)
+            {
+                RemoveUserNameDelegate d = RemoveUserName;
+                listBox1.Invoke(d, id);
+            }
+            else
+            {
+                listBox1.Items.Remove(id);
+                listBox1.SelectedIndex = listBox1.Items.Count - 1;
+                listBox1.ClearSelected();
             }
         }
     }

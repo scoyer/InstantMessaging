@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Class_LinkWithServer.cs" />
     <Compile Include="Control_GroupChat.cs">
       <SubType>UserControl</SubType>
     </Compile>

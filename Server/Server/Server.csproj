@@ -67,11 +67,11 @@
     <Compile Include="Control_UserManage.Designer.cs">
       <DependentUpon>Control_UserManage.cs</DependentUpon>
     </Compile>
-    <Compile Include="window2.cs">
+    <Compile Include="Control_Log.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="window2.Designer.cs">
-      <DependentUpon>window2.cs</DependentUpon>
+    <Compile Include="Control_Log.Designer.cs">
+      <DependentUpon>Control_Log.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Form_Main.resx">
       <DependentUpon>Form_Main.cs</DependentUpon>
@@ -92,8 +92,8 @@
     <EmbeddedResource Include="Control_UserManage.resx">
       <DependentUpon>Control_UserManage.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="window2.resx">
-      <DependentUpon>window2.cs</DependentUpon>
+    <EmbeddedResource Include="Control_Log.resx">
+      <DependentUpon>Control_Log.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">

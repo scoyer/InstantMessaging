@@ -14,10 +14,25 @@ namespace Client
     {
         
         private LinkWithServer lws;
+        private static Form_Setting form = new Form_Setting();
         
         public Form_Setting()
         {
             InitializeComponent();
+        }
+
+        public static Form_Setting getWindow(LinkWithServer lws)
+        {
+            if (form.IsDisposed)
+            {
+                form = new Form_Setting();
+            }
+            else
+            {
+
+            }
+            form.lws = lws;
+            return form;
         }
         
         public Form_Setting(LinkWithServer LWS)
@@ -30,6 +45,8 @@ namespace Client
         {
             textBox1.Text = lws.localIP;
             textBox2.Text = lws.port.ToString();
+            textBox3.Text = "";
+            textBox3.Enabled = false;
         }
         /*
         private delegate void ChangeTextBox1Delegate(string str);
@@ -63,8 +80,20 @@ namespace Client
         private void button1_Click(object sender, EventArgs e)
         {
             lws.localIP = textBox1.Text;
-            lws.port = int.Parse(textBox2.Text);
-            this.Close();
+            try
+            {
+                lws.port = int.Parse(textBox2.Text);
+                this.Close();
+            }
+            catch
+            { 
+                textBox3.Text = "端口号应为0~65535的整数";
+            }
+        }
+
+        private void Form_Setting_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox3.Text = "";
         }
          
     }

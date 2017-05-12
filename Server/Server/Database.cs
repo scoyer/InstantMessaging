@@ -22,7 +22,6 @@ namespace Server
         {
             try
             {
-                FileStream fr = new FileStream("a.txt", FileMode.Create);
                 StreamReader sr = new StreamReader(path, Encoding.UTF8);
                 while (!sr.EndOfStream)
                 {
@@ -50,14 +49,35 @@ namespace Server
         }
 
         public void writeToDatebase()
-        { 
-            
+        {
+            try
+            {
+                StreamWriter sw = new StreamWriter(path);
+                for (int i = 0; i < userList.Count; i++)
+                {
+                    sw.WriteLine(userList[i].id);
+                    sw.WriteLine(userList[i].password);
+                    sw.WriteLine(userList[i].nickname);
+                    sw.WriteLine(userList[i].signature);
+                }
+                sw.Close();
+            }
+            catch
+            {
+                return;
+            }
         }
 
         public void updateUser(User user)
         {
             User tmp = findUser(user.id);
-            if (tmp != null) tmp = user;
+            if (tmp != null)
+            {
+                tmp.password = user.password;
+                tmp.nickname = user.nickname;
+                tmp.signature = user.signature;
+            }
+
         }
 
         public User findUser(string id)

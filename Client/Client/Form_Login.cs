@@ -18,7 +18,6 @@ namespace Client
     public partial class Form_Login : Form
     {
         public LinkWithServer lws;
-        public Form_Main form;
         public User user = new User();
 
         public Form_Login()
@@ -29,6 +28,9 @@ namespace Client
         private void login_Load(object sender, EventArgs e)
         {
             lws = new LinkWithServer();
+            this.KeyPreview = true;
+            Form_ChatWindow form = new Form_ChatWindow();
+            form.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -37,16 +39,20 @@ namespace Client
             switch (content[0])
             {
                 case "link_fail":
-                    MessageBox.Show("连接不上服务器");
+                    textBox3.Text = "连接不上服务器";
+                    //MessageBox.Show("连接不上服务器");
                     break;
                 case "login_repeat":
-                    MessageBox.Show("请勿重复登录");
+                    textBox3.Text = "请勿重复登录";
+                   // MessageBox.Show("请勿重复登录");
                     break;
                 case "login_nonexistent":
-                    MessageBox.Show("用户不存在");
+                    textBox3.Text = "用户不存在";
+                    //MessageBox.Show("用户不存在");
                     break;
                 case "login_incorrect":
-                    MessageBox.Show("密码错误");
+                    textBox3.Text = "密码错误";
+                    //MessageBox.Show("密码错误");
                     break;
                 case "login_success":
                     //MessageBox.Show("登录成功");
@@ -60,19 +66,36 @@ namespace Client
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
                     break;
                 default:
+                    textBox3.Text = "UNKnown Error";
+                    //MessageBox.Show("UNKnown Error");
                     break;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form form = new Form_Setting(lws);
-            form.Show();
+            Form_Setting.getWindow(lws).Show();
+            Form_Setting.getWindow(lws).Activate();
         }
 
         private void Login_FormClosed(object sender, FormClosedEventArgs e)
         {
 
         }
+
+        private void Form_Login_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                button2.PerformClick();
+            }
+            //MessageBox.Show("KeyCode:" + e.KeyCode + ",\r\n KeyData:" + e.KeyData + ",\r\n KeyValue:" + e.KeyValue);  
+        }
+
+        private void Form_Login_MouseClick(object sender, MouseEventArgs e)
+        {
+            textBox3.Text = "";
+        }
+
     }
 }
