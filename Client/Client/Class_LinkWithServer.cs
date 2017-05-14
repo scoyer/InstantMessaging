@@ -21,6 +21,7 @@ namespace Client
         public List<User> userList;
 
         public Form_ChatWindow form;
+        public Form_Main form1;
 
         public bool start()
         {
@@ -38,7 +39,8 @@ namespace Client
             thread.Start();
             return true;
         }
-
+        
+        //别人连我
         private void ReceiveFormClient()
         {
             TcpClient client = new TcpClient();
@@ -50,14 +52,17 @@ namespace Client
                 }
                 catch
                 {
-                    break;
+                    continue;
                 }
-
+                for (int i = 0; i < form.)
             }
         }
-        /*
-        private void ChatWithFriend(Object o)
+
+        //我连别人
+        private void ChatWithFriend(object o)
         {
+            //
+
             Form_ChatWindow form = new Form_ChatWindow();
             TcpClient client = form.client;
             BinaryReader br = form.br;
@@ -78,6 +83,31 @@ namespace Client
                 //SendToForm2(form2, msg);
             }
         }
-         * */
+
+        public void SendMessage(TcpClient client, string msg)
+        {
+            BinaryWriter bw = new BinaryWriter(client.GetStream());
+            try
+            {
+                bw.Write(msg);
+                bw.Flush();
+            }
+            catch
+            { 
+            
+            }
+        }
+
+        public bool IsConnect(string id)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

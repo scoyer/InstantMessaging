@@ -13,14 +13,16 @@ namespace Client
     public partial class Form_Setting : Form
     {
         
-        private LinkWithServer lws;
-        private static Form_Setting form = new Form_Setting();
+        //private static Form_Setting form = new Form_Setting();
+        public bool save = false;
+        public string text1;
+        public string text2;
         
         public Form_Setting()
         {
             InitializeComponent();
         }
-
+        /*
         public static Form_Setting getWindow(LinkWithServer lws)
         {
             if (form.IsDisposed)
@@ -34,59 +36,31 @@ namespace Client
             form.lws = lws;
             return form;
         }
-        
-        public Form_Setting(LinkWithServer LWS)
+        */
+        public Form_Setting(string localIP, int port)
         {
-            this.lws = LWS;
             InitializeComponent();
+            textBox1.Text = localIP;
+            textBox2.Text = port.ToString();
         }
 
         private void setting_Load(object sender, EventArgs e)
         {
-            textBox1.Text = lws.localIP;
-            textBox2.Text = lws.port.ToString();
-            textBox3.Text = "";
             textBox3.Enabled = false;
         }
-        /*
-        private delegate void ChangeTextBox1Delegate(string str);
-        public void ChangeTextBox1(string msg)
-        {
-            if (textBox1.InvokeRequired)
-            {
-                ChangeTextBox1Delegate add = ChangeTextBox1;
-                textBox1.Invoke(add, msg);
-            }
-            else
-            {
-                textBox1.Text = msg;
-            }
-        }
 
-        private delegate void ChangeTextBox2Delegate(string str);
-        public void ChangeTextBox2(string msg)
-        {
-            if (textBox2.InvokeRequired)
-            {
-                ChangeTextBox2Delegate add = ChangeTextBox2;
-                textBox2.Invoke(add, msg);
-            }
-            else
-            {
-                textBox2.Text = msg;
-            }
-        }
-        */
         private void button1_Click(object sender, EventArgs e)
         {
-            lws.localIP = textBox1.Text;
             try
             {
-                lws.port = int.Parse(textBox2.Text);
+                short port = short.Parse(textBox2.Text);
+                save = true;
+                text1 = textBox1.Text;
+                text2 = textBox2.Text;
                 this.Close();
             }
             catch
-            { 
+            {
                 textBox3.Text = "端口号应为0~65535的整数";
             }
         }

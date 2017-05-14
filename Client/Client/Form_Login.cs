@@ -35,6 +35,7 @@ namespace Client
 
         private void button2_Click(object sender, EventArgs e)
         {
+            textBox3.Text = "";
             string[] content = lws.start(textBox1.Text, textBox2.Text).Split(',');
             switch (content[0])
             {
@@ -74,8 +75,13 @@ namespace Client
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Form_Setting.getWindow(lws).Show();
-            Form_Setting.getWindow(lws).Activate();
+            textBox3.Text = "";
+            Form_Setting form = new Form_Setting(lws.localIP, lws.port);
+            form.ShowDialog(this);
+            if (form.save) {
+                lws.localIP = form.text1;
+                lws.port = int.Parse(form.text2);
+            }
         }
 
         private void Login_FormClosed(object sender, FormClosedEventArgs e)
@@ -85,6 +91,7 @@ namespace Client
 
         private void Form_Login_KeyDown(object sender, KeyEventArgs e)
         {
+            textBox3.Text = "";
             if (e.KeyValue == 13)
             {
                 button2.PerformClick();

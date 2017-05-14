@@ -38,7 +38,7 @@
             this.listBox1.ItemHeight = 21;
             this.listBox1.Location = new System.Drawing.Point(0, 8);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(284, 382);
+            this.listBox1.Size = new System.Drawing.Size(284, 403);
             this.listBox1.TabIndex = 0;
             this.listBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
             this.listBox1.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.listBox1_MeasureItem);
@@ -58,7 +58,7 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox listBox1;
+        public System.Windows.Forms.ListBox listBox1;
 
 
     }
