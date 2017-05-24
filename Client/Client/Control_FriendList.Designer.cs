@@ -28,13 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // listBox1
             // 
+            this.listBox1.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.listBox1.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.listBox1.FormattingEnabled = true;
+            this.listBox1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.listBox1.ItemHeight = 21;
             this.listBox1.Location = new System.Drawing.Point(0, 8);
             this.listBox1.Name = "listBox1";
@@ -42,8 +46,8 @@
             this.listBox1.TabIndex = 0;
             this.listBox1.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.listBox1_DrawItem);
             this.listBox1.MeasureItem += new System.Windows.Forms.MeasureItemEventHandler(this.listBox1_MeasureItem);
-            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.d);
             this.listBox1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseDoubleClick);
+            this.listBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.listBox1_MouseMove);
             // 
             // Control_FriendList
             // 
@@ -59,6 +63,7 @@
         #endregion
 
         public System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
 
 
     }

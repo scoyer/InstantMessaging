@@ -28,10 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form_Main));
             this.serverinfo_button = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.user_button = new System.Windows.Forms.Button();
-            this.log_button = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // serverinfo_button
@@ -67,27 +68,29 @@
             this.user_button.UseVisualStyleBackColor = true;
             this.user_button.Click += new System.EventHandler(this.button3_Click);
             // 
-            // log_button
+            // button3
             // 
-            this.log_button.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.log_button.Location = new System.Drawing.Point(12, 256);
-            this.log_button.Name = "log_button";
-            this.log_button.Size = new System.Drawing.Size(34, 49);
-            this.log_button.TabIndex = 4;
-            this.log_button.Text = "日志";
-            this.log_button.UseVisualStyleBackColor = true;
+            this.button3.Font = new System.Drawing.Font("Microsoft YaHei", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.button3.Location = new System.Drawing.Point(12, 256);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(34, 49);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "日志";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.log_button_Click);
             // 
-            // MainForm
+            // Form_Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(609, 351);
-            this.Controls.Add(this.log_button);
+            this.Controls.Add(this.button3);
             this.Controls.Add(this.user_button);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.serverinfo_button);
-            this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Name = "Form_Main";
+            this.Text = "服务端";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.ResumeLayout(false);
@@ -99,7 +102,7 @@
         private System.Windows.Forms.Button serverinfo_button;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button user_button;
-        private System.Windows.Forms.Button log_button;
+        private System.Windows.Forms.Button button3;
 
 
     }

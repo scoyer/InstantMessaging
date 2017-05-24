@@ -33,7 +33,6 @@ namespace Server
                         user.nickname = sr.ReadLine();
                         user.signature = sr.ReadLine();
                         userList.Add(user);
-                        //Console.WriteLine(user.id);
                     }
                     catch
                     {

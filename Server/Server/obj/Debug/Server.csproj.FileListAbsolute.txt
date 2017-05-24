@@ -42,3 +42,4 @@ E:\快盘\学习资料\网络编程\综合实验\Server\Server\obj\Debug\Server.
 E:\快盘\学习资料\网络编程\综合实验\Server\Server\obj\Debug\Server.Control_ServerInfo.resources
 E:\快盘\学习资料\网络编程\综合实验\Server\Server\obj\Debug\Server.Control_UserManage.resources
 E:\快盘\学习资料\网络编程\综合实验\Server\Server\obj\Debug\Server.Control_Log.resources
+E:\快盘\学习资料\网络编程\综合实验\Server\Server\obj\Debug\Server.csprojResolveAssemblyReference.cache

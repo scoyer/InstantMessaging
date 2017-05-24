@@ -12,15 +12,17 @@ namespace Client
 {
     public partial class Control_FriendList : UserControl
     {
+        public Class_LinkWithServer lwc;
+
         public Control_FriendList()
         {
             InitializeComponent();
-            User user = new User();
-            user.id = "961042996";
-            user.nickname = "scoyer";
-            user.signature = "资深宅。";
-            listBox1.Items.Add(user);
-            this.listBox1.DrawMode = DrawMode.OwnerDrawVariable;
+        }
+
+        public Control_FriendList(Class_LinkWithServer lwc)
+        {
+            InitializeComponent();
+            this.lwc = lwc;
         }
 
         //add item
@@ -55,14 +57,10 @@ namespace Client
             }
         }
 
-        private void d(object sender, EventArgs e)
-        {
-
-        }
-
         private void listBox1_DrawItem(object sender, DrawItemEventArgs e)
         {
             e.DrawBackground();
+            if (e.Index == -1) return;
             e.DrawFocusRectangle();
             e.Graphics.DrawString(listBox1.Items[e.Index].ToString(), e.Font, new SolidBrush(Color.Black), e.Bounds);
         }
@@ -74,10 +72,34 @@ namespace Client
 
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Form_ChatWindow form = new Form_ChatWindow();
-            form.Show();
+            try
+            {
+                User user = (User)listBox1.SelectedItem;
+                user = lwc.GetUser(user.id);
+                if (user.client == null && lwc.LinkToFriend(user))
+                {
+                    user.form.Show();
+                }
+                else
+                {
+                    user.form.Visible = true;
+                    user.form.Activate();
+                }
+                
+            }
+            catch
+            { 
+            
+            }
         }
 
+        public void ShowToolTip(string id) { 
+            
+        }
+
+        private void listBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+        }
 
     }
 }

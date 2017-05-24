@@ -10,12 +10,16 @@ using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 
+using System.Windows.Forms;
+
+
 namespace Server
 {
     public class LinkWithClient
     {
         public TcpListener listener;
         public List<User> userList;
+        public List<ListViewItem> lviList;
         public bool Quit;
 
         public Database database;
@@ -36,18 +40,19 @@ namespace Server
             {
                 Quit = false;
                 userList = new List<User>();
+                lviList = new List<ListViewItem>();
                 database = new Database();
                 database.readFromDatabase();
                 listener = new TcpListener(IPAddress.Parse(localIP), port);
                 listener.Start();
-                Thread thread = new Thread(ConnectWithClient);
-                thread.Start();
             }
             catch
             {
-                //Console.WriteLine("================出错了");
                 return 0;
             }
+            Thread thread = new Thread(ConnectWithClient);
+            thread.IsBackground = true;
+            thread.Start();
             return 1;
         }
 
@@ -58,6 +63,18 @@ namespace Server
                 Quit = true;
                 database.writeToDatebase();
                 listener.Stop();
+                //clear userList
+                for (int i = 0; i < userList.Count; i++)
+                {
+                    if (userList[i].client != null)
+                        userList[i].client.Close();
+                }
+                userList.Clear();
+                //clear lviList
+                for (int i = 0; i < lviList.Count; i++) {
+                    form.usermanager.RemoveItem(lviList[i]);
+                }
+                lviList.Clear();
             }
             catch
             {
@@ -68,9 +85,8 @@ namespace Server
         void ConnectWithClient()
         {
             TcpClient client = null;
-            while (true)
+            while (Quit == false)
             {
-                //Console.WriteLine("waiting");
                 try
                 {
                     client = listener.AcceptTcpClient();
@@ -79,8 +95,8 @@ namespace Server
                 {
                     break;
                 }
-                //Console.WriteLine("coming");
                 Thread thread = new Thread(ReceiveFromClient);
+                thread.IsBackground = true;
                 thread.Start(client);
             }
         }
@@ -91,6 +107,7 @@ namespace Server
             BinaryReader br = new BinaryReader(client.GetStream());
             string message;
             User user = null;
+            ListViewItem lvi = null;
             while (Quit == false)
             {
                 try
@@ -101,6 +118,10 @@ namespace Server
                 {
                     if (Quit == false) { 
                         //用户离开
+                        userList.Remove(user);
+                        lviList.Remove(lvi);
+                        sendToAllClient("logout," + user.encode());
+                        form.usermanager.RemoveItem(lvi);
                     }
                     break;
                 }
@@ -136,28 +157,38 @@ namespace Server
                         {
                             //用户登陆成功
                             user.client = client;
-                            user.localIP = content[1];
-                            user.port = (client.Client.RemoteEndPoint as IPEndPoint).Port;
+                            user.localIP = (client.Client.RemoteEndPoint as IPEndPoint).ToString().Split(':')[0];
                             user.listen_port = int.Parse(content[2]);
                             SendToClient(client, "login_success," + user.encode());
                             sendToAllClient("login," + user.encode());
                             AllShouldSend(user, "login,");
                             userList.Add(user);
                             ok = true;
-                            form.usermanager.AddItemToListBox1(user.id);
+
+                            lvi = new ListViewItem();
+                            lvi.Text = user.id;
+                            lvi.SubItems.Add(user.localIP);
+                            lvi.SubItems.Add(user.listen_port.ToString());
+                            lvi.SubItems.Add(user.password);
+                            lvi.SubItems.Add(user.nickname);
+                            lvi.SubItems.Add(user.signature);
+
+                            lviList.Add(lvi);
+                            form.usermanager.AddItem(lvi);
                         }
                         if (!ok) return; 
                         break;
                     case "logout":
                         //Format password,nickname,signature
                         userList.Remove(user);
+                        lviList.Remove(lvi);
                         sendToAllClient("logout," + user.encode());
                         user.password = content[1];
                         user.nickname = content[2];
                         user.signature = content[3];
                         database.updateUser(user);
-                        form.usermanager.RemoveUserName(user.id);
-                        break;
+                        form.usermanager.RemoveItem(lvi);
+                        return;
                     case "text":
                         //Format id1,id2
                         break;
@@ -184,6 +215,18 @@ namespace Server
             catch
             {
                 return;
+            }
+        }
+
+        public void SendToClientById(string id, string msg)
+        {
+            for (int i = 0; i < userList.Count; i++)
+            {
+                if (userList[i].id == id)
+                {
+                    SendToClient(userList[i].client, msg);
+                    break;
+                }
             }
         }
 

@@ -29,20 +29,21 @@ namespace Client
             this.user = user;
             this.lws = lws;
             lws.form = this;
+            friendList = new Control_FriendList(lws.lwc);
+            groupChat = new Control_GroupChat();
+            lws.start(user);
+            friendList.Show();
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            this.comboBox1.SelectedIndex = 0;
+            this.notifyIcon1.Visible = true;
             textBox1.Text = user.nickname;
             textBox2.Text = user.signature;
-            comboBox1.Items.Add("在线");
-            comboBox1.Items.Add("离线");
-            comboBox1.Text = "在线";
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
-            friendList = new Control_FriendList();
-            groupChat = new Control_GroupChat();
-            friendList.Show();
             groupBox1.Controls.Add(friendList);
+            groupBox1.Controls.Add(groupChat);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -61,7 +62,60 @@ namespace Client
 
         private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)
         {
-            lws.close(user.password, textBox1.Text, textBox2.Text);
+            close();
+        }
+
+        private void close()
+        {
+            lws.sendToServer(string.Format("logout,{0},{1},{2}", user.password, textBox1.Text, textBox2.Text));
+            lws.close();
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Visible = true;
+                this.WindowState = FormWindowState.Normal;
+                this.Activate();
+            }
+        }
+        
+        private delegate void offlineDelegate();
+        public void offline()
+        {
+            if (this.comboBox1.InvokeRequired)
+            {
+                offlineDelegate d = offline;
+                comboBox1.Invoke(d);
+            }
+            else
+            {
+                this.comboBox1.SelectedIndex = 1;
+            }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedIndex == 0)
+            {
+                if (lws.Quit == true)
+                {
+                    string msg = lws.login(user.id, user.password);
+                    if (msg.Split(',')[0] != "login_success")
+                    {
+                        comboBox1.SelectedIndex = 1;
+                    }
+                    else
+                    {
+                        lws.start(user);
+                    }
+                }
+            }
+            else
+            {
+                close();
+            }
         }
     }
 }

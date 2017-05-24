@@ -18,7 +18,7 @@ namespace Client
     public partial class Form_Login : Form
     {
         public LinkWithServer lws;
-        public User user = new User();
+        public User me;
 
         public Form_Login()
         {
@@ -29,46 +29,32 @@ namespace Client
         {
             lws = new LinkWithServer();
             this.KeyPreview = true;
-            Form_ChatWindow form = new Form_ChatWindow();
-            form.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             textBox3.Text = "";
-            string[] content = lws.start(textBox1.Text, textBox2.Text).Split(',');
+            string[] content = lws.login(textBox1.Text, textBox2.Text).Split(',');
             switch (content[0])
             {
                 case "link_fail":
                     textBox3.Text = "连接不上服务器";
-                    //MessageBox.Show("连接不上服务器");
                     break;
                 case "login_repeat":
                     textBox3.Text = "请勿重复登录";
-                   // MessageBox.Show("请勿重复登录");
                     break;
                 case "login_nonexistent":
                     textBox3.Text = "用户不存在";
-                    //MessageBox.Show("用户不存在");
                     break;
                 case "login_incorrect":
                     textBox3.Text = "密码错误";
-                    //MessageBox.Show("密码错误");
                     break;
                 case "login_success":
-                    //MessageBox.Show("登录成功");
-                    user.id = textBox1.Text;
-                    user.password = textBox2.Text;
-                    user.localIP = content[1];
-                    user.port = int.Parse(content[2]);
-                    user.listen_port = int.Parse(content[3]);
-                    user.nickname = content[5];
-                    user.signature = content[6];
+                    me = new User(content);
                     this.DialogResult = System.Windows.Forms.DialogResult.OK;
                     break;
                 default:
                     textBox3.Text = "UNKnown Error";
-                    //MessageBox.Show("UNKnown Error");
                     break;
             }
         }
@@ -76,11 +62,10 @@ namespace Client
         private void button1_Click(object sender, EventArgs e)
         {
             textBox3.Text = "";
-            Form_Setting form = new Form_Setting(lws.localIP, lws.port);
-            form.ShowDialog(this);
-            if (form.save) {
-                lws.localIP = form.text1;
-                lws.port = int.Parse(form.text2);
+            Form_Setting form = new Form_Setting(lws.serverIP, lws.port);
+            if (form.ShowDialog(this) == DialogResult.OK) {
+                lws.serverIP = form.textBox1.Text;
+                lws.port = int.Parse(form.textBox2.Text);
             }
         }
 
@@ -96,12 +81,21 @@ namespace Client
             {
                 button2.PerformClick();
             }
-            //MessageBox.Show("KeyCode:" + e.KeyCode + ",\r\n KeyData:" + e.KeyData + ",\r\n KeyValue:" + e.KeyValue);  
         }
 
         private void Form_Login_MouseClick(object sender, MouseEventArgs e)
         {
             textBox3.Text = "";
+        }
+
+        private void notifyIcon1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                this.Visible = true;
+                this.WindowState = FormWindowState.Normal;
+                this.Activate();
+            }
         }
 
     }

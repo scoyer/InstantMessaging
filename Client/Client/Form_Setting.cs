@@ -13,30 +13,11 @@ namespace Client
     public partial class Form_Setting : Form
     {
         
-        //private static Form_Setting form = new Form_Setting();
-        public bool save = false;
-        public string text1;
-        public string text2;
-        
         public Form_Setting()
         {
             InitializeComponent();
         }
-        /*
-        public static Form_Setting getWindow(LinkWithServer lws)
-        {
-            if (form.IsDisposed)
-            {
-                form = new Form_Setting();
-            }
-            else
-            {
-
-            }
-            form.lws = lws;
-            return form;
-        }
-        */
+        
         public Form_Setting(string localIP, int port)
         {
             InitializeComponent();
@@ -53,10 +34,8 @@ namespace Client
         {
             try
             {
-                short port = short.Parse(textBox2.Text);
-                save = true;
-                text1 = textBox1.Text;
-                text2 = textBox2.Text;
+                int port = int.Parse(textBox2.Text);
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             catch

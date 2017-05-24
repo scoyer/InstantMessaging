@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using System.Net;
+using System.Net.Sockets;
+
 namespace Client
 {
     public class User
@@ -14,8 +17,10 @@ namespace Client
         public string signature;
         public string photo;
         public string localIP;
-        public int port;
         public int listen_port;
+
+        public Form_ChatWindow form;
+        public TcpClient client;
 
         public User()
         {
@@ -25,11 +30,10 @@ namespace Client
         public User(string[] content)
         {
             this.localIP = content[1];
-            this.port = int.Parse(content[2]);
-            this.listen_port = int.Parse(content[3]);
-            this.id = content[4];
-            this.nickname = content[5];
-            this.signature = content[6];
+            this.listen_port = int.Parse(content[2]);
+            this.id = content[3];
+            this.nickname = content[4];
+            this.signature = content[5];
         }
 
         public override string ToString()
@@ -59,8 +63,9 @@ namespace Client
             ret += this.signature.GetHashCode();
             ret += this.photo.GetHashCode();
             ret += this.localIP.GetHashCode();
-            ret += this.port.GetHashCode();
             ret += this.listen_port.GetHashCode();
+            ret += this.form.GetHashCode();
+            ret += this.client.GetHashCode();
             return ret;
         }
     }

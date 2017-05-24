@@ -18,6 +18,8 @@ namespace Server
 {
     public partial class Control_UserManage : UserControl
     {
+        public LinkWithClient lwc;
+
         public Control_UserManage()
         {
             InitializeComponent();
@@ -25,44 +27,56 @@ namespace Server
 
         private void UserManager_Load(object sender, EventArgs e)
         {
-
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
-        }
-
-        //add item
-        private delegate void AddItemToListBox1Delegate(string id);
-        public void AddItemToListBox1(string id)
-        {
-            if (listBox1.InvokeRequired)
+            int selectCount = listView1.SelectedItems.Count;
+            if (selectCount > 0)
             {
-                AddItemToListBox1Delegate add = AddItemToListBox1;
-                listBox1.Invoke(add, id);
+                string id = listView1.SelectedItems[0].Text;
+                lwc.SendToClientById(id, string.Format("talk,{0}", textBox1.Text));
+                textBox1.Clear();
             }
             else
             {
-                listBox1.Items.Add(id);
+                MessageBox.Show("请选择一个用户");
+            }
+        }
+
+        //add item
+        private delegate void AddItemDelegate(ListViewItem lvi);
+        public void AddItem(ListViewItem lvi)
+        {
+            if (listView1.InvokeRequired)
+            {
+                AddItemDelegate d = AddItem;
+                listView1.Invoke(d, lvi);
+            }
+            else
+            {
+                listView1.Items.Add(lvi);
             }
         }
 
         //remove item
-        private delegate void RemoveUserNameDelegate(string id);
-        public void RemoveUserName(string id)
+        private delegate void RemoveItemDelegate(ListViewItem lvi);
+        public void RemoveItem(ListViewItem lvi)
         {
-            if (listBox1.InvokeRequired)
+            if (listView1.InvokeRequired)
             {
-                RemoveUserNameDelegate d = RemoveUserName;
-                listBox1.Invoke(d, id);
+                RemoveItemDelegate d = RemoveItem;
+                listView1.Invoke(d, lvi);
             }
             else
             {
-                listBox1.Items.Remove(id);
-                listBox1.SelectedIndex = listBox1.Items.Count - 1;
-                listBox1.ClearSelected();
+                listView1.Items.Remove(lvi);
             }
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

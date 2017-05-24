@@ -9,105 +9,185 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms;
 
 namespace Client
 {
-    public class Class_LinkWithServer
+    public class LinkWithServer
     {
-        public TcpListener listener;
+        public TcpClient client;
+        public Class_LinkWithServer lwc;
+        public string serverIP;
         public string localIP;
-        public int port;
+        public int port = 51000;
+        public int listen_port;
         public bool Quit = false;
-        public List<User> userList;
+        public User me;
 
-        public Form_ChatWindow form;
-        public Form_Main form1;
+        public Form_Main form;
 
-        public bool start()
+        public LinkWithServer()
+        {
+            serverIP = localIP = getLocalIP();
+        }
+
+        public string login(string id, string password)
         {
             try
             {
-                listener = new TcpListener(IPAddress.Parse(localIP), port);
+                client = new TcpClient(serverIP, port);
             }
             catch
             {
-                return false;
+                return "link_fail";
             }
-            listener.Start();
-            Thread thread = new Thread(ReceiveFormClient);
+            Quit = false;
+            listen_port = getPort();
+            sendToServer(string.Format("login,{0},{1},{2},{3}", localIP, listen_port.ToString(), id, password));
+            string content = new BinaryReader(client.GetStream()).ReadString();
+            
+            //登录成功
+            if (content.StartsWith("login_success"))
+            {
+                lwc = new Class_LinkWithServer(new User(content.Split(',')));
+                lwc.start();
+            }
+            return content;
+        }
+
+        public void start(User me)
+        {
+            this.me = me;
+            Thread thread = new Thread(ReceiveFromServer);
             thread.IsBackground = true;
             thread.Start();
-            return true;
         }
-        
-        //别人连我
-        private void ReceiveFormClient()
+
+        public void close()
         {
-            TcpClient client = new TcpClient();
-            while (true)
+            if (client != null)
             {
-                try
+                lock (lwc.userList)
                 {
-                    client = listener.AcceptTcpClient();
+                    for (int i = 0; i < lwc.userList.Count; i++)
+                    {
+                        form.friendList.RemoveItemToListBox1(lwc.userList[i]);
+                    }
                 }
-                catch
-                {
-                    continue;
-                }
-                for (int i = 0; i < form.)
+                Quit = true;
+                client.Close();
+                lwc.close();
             }
         }
 
-        //我连别人
-        private void ChatWithFriend(object o)
+        public void ReceiveFromServer()
         {
-            //
-
-            Form_ChatWindow form = new Form_ChatWindow();
-            TcpClient client = form.client;
-            BinaryReader br = form.br;
-            String info = client.Client.RemoteEndPoint.ToString();
-            string msg = null;
-            while (true)
+            string message;
+            BinaryReader br = new BinaryReader(client.GetStream());
+            while (Quit == false) 
             {
                 try
                 {
-                    msg = br.ReadString();
+                    message = br.ReadString();
                 }
                 catch
                 {
-                    //AddItemToListBox1(string.Format("与{0}的连接断了", info));
-                    form2.Close();
-                    return;
+                    //与服务器失联了，更改为离线状态
+                    Console.WriteLine("离线");
+                    if (Quit == false)
+                        MessageBox.Show("与服务器失联");
+                    close();
+                    break;
                 }
-                //SendToForm2(form2, msg);
+                string[] content = message.Split(',');
+                User user = null;
+                switch (content[0])
+                { 
+                    case "login":
+                        //Format IP,listen_port,id,nickname,signature
+                        user = new User(content);
+                        lwc.userList.Add(user);
+                        form.friendList.AddItemToListBox1(user);
+                        break;
+                    case "logout":
+                        user = new User(content);
+                        lwc.userList.Remove(user);
+                        form.friendList.RemoveItemToListBox1(user);
+                        break;
+                    case "talk":
+                        
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
-        public void SendMessage(TcpClient client, string msg)
+        public int getPort()
         {
-            BinaryWriter bw = new BinaryWriter(client.GetStream());
+            for (int i = 51000; i < 60000; i++)
+            {
+                if (!PortInUse(i)) {
+                    return i;
+                }
+            }
+            return 0;
+        }
+
+        public bool PortInUse(int port)
+        {
+            bool inUse = false;
+
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+
+            foreach (IPEndPoint endPoint in ipEndPoints)
+            {
+                if (endPoint.Port == port)
+                {
+                    inUse = true;
+                    break;
+                }
+            }
+
+            return inUse;
+        }
+
+        public string getLocalIP()
+        {
             try
             {
-                bw.Write(msg);
+                string hostname = Dns.GetHostName();
+                IPHostEntry iphostentry = Dns.GetHostEntry(hostname);
+                for (int i = 0; i < iphostentry.AddressList.Length; i++)
+                {
+                    if (iphostentry.AddressList[i].AddressFamily == AddressFamily.InterNetwork)
+                    {
+                        return iphostentry.AddressList[i].ToString();
+                    }
+                }
+                return "127.0.0.1";
+            }
+            catch
+            {
+                return "127.0.0.1";
+            }
+        }
+
+        public bool sendToServer(string message)
+        {
+            try
+            {
+                BinaryWriter bw = new BinaryWriter(client.GetStream());
+                bw.Write(message);
                 bw.Flush();
             }
             catch
-            { 
-            
+            {
+                return false;   
             }
+            return true;
         }
 
-        public bool IsConnect(string id)
-        {
-            for (int i = 0; i < userList.Count; i++)
-            {
-                if (userList[i].id == id)
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 }
