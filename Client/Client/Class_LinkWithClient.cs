@@ -13,14 +13,15 @@ using System.Threading;
 
 namespace Client
 {
-    public class Class_LinkWithServer
+    public class Class_LinkWithClient
     {
         public TcpListener listener;
         public bool Quit = false;
         public List<User> userList = new List<User>();
         public User me;
+        public Form_Main form;
 
-        public Class_LinkWithServer(User me)
+        public Class_LinkWithClient(User me)
         {
             this.me = me;
         }
@@ -87,7 +88,6 @@ namespace Client
                     continue;
                 }
                 string id = new BinaryReader(client.GetStream()).ReadString();
-                Console.WriteLine(id);
                 User user = GetUser(id);
                 if (user == null) {
                     client.Close();
@@ -148,7 +148,11 @@ namespace Client
                 switch (content[0])
                 {
                     case "talk":
-                        user.form.AddItemToListBox1(format(msg.Substring(5)));
+                        user.form.AddItemToListBox1(format(user.nickname, msg.Substring(5)));
+                        if (user.form.Visible == false)
+                        {
+                            form.reminder.AddItemToListBox1(user);
+                        }
                         break;
                     case "file":
                         Thread thread = new Thread(ReceiveFile);
@@ -232,10 +236,10 @@ namespace Client
             
         }
 
-        private string format(string msg)
+        private string format(string nickname, string msg)
         {
             DateTime date = DateTime.Now;
-            return string.Format("{0}   {1}\n{2}", me.nickname, date, msg);
+            return string.Format("{0}   {1}\n{2}", nickname, date, msg);
         }
 
         public void SendMessage(TcpClient client, string msg)

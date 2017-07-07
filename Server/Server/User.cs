@@ -29,8 +29,8 @@ namespace Server
 
         public string encode()
         { 
-            //format: IP,listen_port,id,nickname,signature
-            return string.Format("{0},{1},{2},{3},{4}", localIP, listen_port.ToString(), id, nickname, signature);
+            //format: IP,listen_port,id,password,nickname,signature
+            return string.Format("{0},{1},{2},{3},{4},{5}", localIP, listen_port.ToString(), id, password, nickname, signature);
         }
 
     }

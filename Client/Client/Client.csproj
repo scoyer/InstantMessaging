@@ -45,11 +45,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class_LinkWithClient.cs" />
-    <Compile Include="Control_GroupChat.cs">
+    <Compile Include="Control_Reminder.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Control_GroupChat.Designer.cs">
-      <DependentUpon>Control_GroupChat.cs</DependentUpon>
+    <Compile Include="Control_Reminder.Designer.cs">
+      <DependentUpon>Control_Reminder.cs</DependentUpon>
     </Compile>
     <Compile Include="Form_ChatWindow.cs">
       <SubType>Form</SubType>
@@ -85,6 +85,10 @@
       <DependentUpon>Form_Setting.cs</DependentUpon>
     </Compile>
     <Compile Include="User.cs" />
+    <Compile Include="UserReminderVersion.cs" />
+    <EmbeddedResource Include="Control_Reminder.resx">
+      <DependentUpon>Control_Reminder.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_ChatWindow.resx">
       <DependentUpon>Form_ChatWindow.cs</DependentUpon>
     </EmbeddedResource>

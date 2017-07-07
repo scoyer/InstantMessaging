@@ -10,19 +10,20 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class Control_FriendList : UserControl
+    public partial class Control_Reminder : UserControl
     {
         public Class_LinkWithClient lwc;
 
-        public Control_FriendList()
+        public Control_Reminder()
         {
             InitializeComponent();
         }
 
-        public Control_FriendList(Class_LinkWithClient lwc)
+        public Control_Reminder(Class_LinkWithClient lwc)
         {
             InitializeComponent();
             this.lwc = lwc;
+            User test = new User();
         }
 
         //add item
@@ -36,7 +37,25 @@ namespace Client
             }
             else
             {
-                listBox1.Items.Add(user);
+                //封装成UserReminderVersion
+                UserReminderVersion _user = new UserReminderVersion(user);
+                int index = -1;
+                for (int i = 0; i < listBox1.Items.Count; i++)
+                {
+                    if (_user.Equals(listBox1.Items[i]))
+                    {
+                        index = i;
+                        _user = listBox1.Items[i] as UserReminderVersion;
+                        _user.count++;
+                        listBox1.Items.RemoveAt(i);
+                        listBox1.Items.Add(_user);
+                        break;
+                    }
+                }
+                if (index == -1)
+                {
+                    listBox1.Items.Add(_user);
+                }
             }
         }
 
@@ -51,7 +70,9 @@ namespace Client
             }
             else
             {
-                listBox1.Items.Remove(user);
+                //封装成UserReminderVersion
+                UserReminderVersion _user = new UserReminderVersion(user);
+                listBox1.Items.Remove(_user);
                 listBox1.SelectedIndex = listBox1.Items.Count - 1;
                 listBox1.ClearSelected();
             }
@@ -70,39 +91,23 @@ namespace Client
             e.ItemHeight = 50;
         }
 
-        
-
-        public void ShowToolTip(string id) { 
-            
-        }
-
-        private void listBox1_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
-
         private void listBox1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
             try
             {
-                User user = (User)listBox1.SelectedItem;
-                user = lwc.GetUser(user.id);
-                if (user.client == null && lwc.LinkToFriend(user))
-                {
-                    user.form.Show();
-                }
-                else
-                {
-                    user.form.Visible = true;
-                    user.form.Activate();
-                }
-                lwc.form.reminder.RemoveItemToListBox1(user);
-
+                UserReminderVersion _user = (UserReminderVersion)listBox1.SelectedItem;
+                User user = lwc.GetUser(_user.id);
+                user.form.Visible = true;
+                user.form.Activate();
+                RemoveItemToListBox1(user);
             }
             catch
             {
 
             }
         }
+
+        
 
     }
 }

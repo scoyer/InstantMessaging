@@ -32,8 +32,9 @@ namespace Client
             this.localIP = content[1];
             this.listen_port = int.Parse(content[2]);
             this.id = content[3];
-            this.nickname = content[4];
-            this.signature = content[5];
+            this.password = content[4];
+            this.nickname = content[5];
+            this.signature = content[6];
         }
 
         public override string ToString()

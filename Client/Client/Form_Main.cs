@@ -14,23 +14,23 @@ namespace Client
     {
 
         public User user;
-        public LinkWithServer lws;
+        public Class_LinkWithServer lws;
         public Control_FriendList friendList;
-        public Control_GroupChat groupChat;
+        public Control_Reminder reminder;
 
         public Form_Main()
         {
             InitializeComponent();
         }
 
-        public Form_Main(User user, LinkWithServer lws)
+        public Form_Main(User user, Class_LinkWithServer lws)
         {
             InitializeComponent();
             this.user = user;
             this.lws = lws;
             lws.form = this;
             friendList = new Control_FriendList(lws.lwc);
-            groupChat = new Control_GroupChat();
+            reminder = new Control_Reminder(lws.lwc);
             lws.start(user);
             friendList.Show();
         }
@@ -43,7 +43,7 @@ namespace Client
             textBox2.Text = user.signature;
             comboBox1.DropDownStyle = ComboBoxStyle.DropDownList;
             groupBox1.Controls.Add(friendList);
-            groupBox1.Controls.Add(groupChat);
+            groupBox1.Controls.Add(reminder);
         }
 
         private void toolStripButton1_Click(object sender, EventArgs e)
@@ -55,9 +55,9 @@ namespace Client
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            groupChat.Show();
+            reminder.Show();
             this.groupBox1.Controls.Clear();
-            this.groupBox1.Controls.Add(groupChat);
+            this.groupBox1.Controls.Add(reminder);
         }
 
         private void Form_Main_FormClosing(object sender, FormClosingEventArgs e)

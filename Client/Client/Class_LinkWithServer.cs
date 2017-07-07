@@ -13,10 +13,10 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public class LinkWithServer
+    public class Class_LinkWithServer
     {
         public TcpClient client;
-        public Class_LinkWithServer lwc;
+        public Class_LinkWithClient lwc;
         public string serverIP;
         public string localIP;
         public int port = 51000;
@@ -26,7 +26,7 @@ namespace Client
 
         public Form_Main form;
 
-        public LinkWithServer()
+        public Class_LinkWithServer()
         {
             serverIP = localIP = getLocalIP();
         }
@@ -49,7 +49,7 @@ namespace Client
             //登录成功
             if (content.StartsWith("login_success"))
             {
-                lwc = new Class_LinkWithServer(new User(content.Split(',')));
+                lwc = new Class_LinkWithClient(new User(content.Split(',')));
                 lwc.start();
             }
             return content;
@@ -57,6 +57,7 @@ namespace Client
 
         public void start(User me)
         {
+            lwc.form = form;
             this.me = me;
             Thread thread = new Thread(ReceiveFromServer);
             thread.IsBackground = true;
@@ -93,7 +94,7 @@ namespace Client
                 catch
                 {
                     //与服务器失联了，更改为离线状态
-                    Console.WriteLine("离线");
+                    form.offline();
                     if (Quit == false)
                         MessageBox.Show("与服务器失联");
                     close();
@@ -113,9 +114,9 @@ namespace Client
                         user = new User(content);
                         lwc.userList.Remove(user);
                         form.friendList.RemoveItemToListBox1(user);
+                        form.reminder.RemoveItemToListBox1(user);
                         break;
                     case "talk":
-                        
                         break;
                     default:
                         break;

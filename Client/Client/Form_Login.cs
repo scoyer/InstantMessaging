@@ -17,7 +17,7 @@ namespace Client
 {
     public partial class Form_Login : Form
     {
-        public LinkWithServer lws;
+        public Class_LinkWithServer lws;
         public User me;
 
         public Form_Login()
@@ -27,8 +27,10 @@ namespace Client
 
         private void login_Load(object sender, EventArgs e)
         {
-            lws = new LinkWithServer();
+            lws = new Class_LinkWithServer();
             this.KeyPreview = true;
+            //Form_Main main = new Form_Main();
+            //main.Show();
         }
 
         private void button2_Click(object sender, EventArgs e)

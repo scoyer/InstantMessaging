@@ -30,8 +30,8 @@ namespace Server
 
         }
 
-        public LinkWithClient(Form_Main FORM) {
-            this.form = FORM;
+        public LinkWithClient(Form_Main form) {
+            this.form = form;
         }
 
         public int start(string localIP, int port)
@@ -126,6 +126,7 @@ namespace Server
                     break;
                 }
                 string[] content = message.Split(',');
+                form.log.AddItemToListBox1(message);
                 switch (content[0])
                 {
                     case "login":
